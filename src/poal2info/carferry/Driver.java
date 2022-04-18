@@ -5,6 +5,12 @@ public class Driver {
 	private String name, firstName;
 	private int permNumber;
 	
+	public Driver(String _name, String _firstName, int _permNumber) {
+		name = _name;
+		firstName = _firstName;
+		permNumber = _permNumber;
+	}
+	
 	/* A modifier */
 	public boolean equals(Object o) {
 		if (!(o instanceof Driver)) {

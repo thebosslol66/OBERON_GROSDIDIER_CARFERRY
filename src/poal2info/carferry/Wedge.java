@@ -13,12 +13,29 @@ public class Wedge {
 	private double length, maxWeight;
 	private Row rows [];
 	
+	public Wedge(double _length, double _maxWeight, int nbRow) {
+		length = _length;
+		maxWeight = _maxWeight;
+		rows = new Row[nbRow];
+		for (int i=0; i<nbRow; i++) {
+			rows[i] = new Row(i);
+		}
+	}
+	
 	public Position addVehicule(Vehicle v) throws LoadingException {
 		double vehicleLength = v.getLenght();
 		double vehicleWeight = v.getWeight();
 		
-		if ((this.getTotalWeight()+vehicleWeight) > maxWeight) {
-			throw new LoadingException(LoadingException.Reason.TOO_HEAVY);
+		if (v instanceof Truck) {
+			Truck t = (Truck) v;
+			if ((this.getTotalWeight()+vehicleWeight+t.getCargoWeight()) > maxWeight) {
+				throw new LoadingException(LoadingException.Reason.TOO_HEAVY);
+			}
+		}
+		else {
+			if ((this.getTotalWeight()+vehicleWeight) > maxWeight) {
+				throw new LoadingException(LoadingException.Reason.TOO_HEAVY);
+			}
 		}
 		
 		Set<Row> rowsWithEnougthSpace = new TreeSet<Row>();
@@ -67,6 +84,9 @@ public class Wedge {
 	}
 	
 	public Queue<Vehicle> getVehicleRow(int rowNumber){
-		return null;
+		if (rowNumber >= rows.length) {
+			//Throw a special exception
+		}
+		return rows[rowNumber].getRow();
 	}
 }

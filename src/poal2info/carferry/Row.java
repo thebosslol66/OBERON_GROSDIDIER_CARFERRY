@@ -1,31 +1,44 @@
 package poal2info.carferry;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class Row implements Comparable<Row> {
 	
-	private Queue<Vehicle> vehiculeQueue;
+	private Queue<Vehicle> vehicleQueue;
 	private int rowNumber;
 	
+	public Row(int nb) {
+		vehicleQueue = new LinkedList<Vehicle>();
+		rowNumber = nb;
+	}
+	
 	public void addVehicle(Vehicle v) {
-		
+		vehicleQueue.add(v);
 	}
 	
 	public Vehicle removeVehicle() {
-		return null;
+		return vehicleQueue.poll();
 	}
 	
 	public double getTotalVehicleLength() {
-		return 0.0;
+		double length = 0;
+		for(Vehicle v: vehicleQueue) {
+			length += v.getLenght();
+		}
+		return length;
 	}
 	
 	public int getVehicleNumber() {
-		return 0;
+		return vehicleQueue.size();
 	}
 
 	public double getTotalWeight() {
 		double weight = 0;
-		for(Vehicle v: vehiculeQueue) {
+		for(Vehicle v: vehicleQueue) {
+			if (v instanceof Truck) {
+				weight += ((Truck) v).getCargoWeight();
+			}
 			weight += v.getWeight();
 		}
 		return weight;
@@ -40,5 +53,8 @@ public class Row implements Comparable<Row> {
 		return rowNumber;
 	}
 	
+	public Queue<Vehicle> getRow(){
+		return vehicleQueue;
+	}
 	
 }

@@ -9,13 +9,18 @@ public class Boat {
 	private Wedge wedge;
 	private Accounting accounting;
 	private Set<Ticket> listing;
+	private int passengers;
 	private boolean canLoad;
 	
-	public Boat() {
-		wedge = new Wedge();
+	public Boat(double length, double weight, int rows) {
+		wedge = new Wedge(length, weight, rows);
 		accounting = new Accounting();
 		listing = new TreeSet<Ticket>();
 		canLoad = true;
+	}
+	
+	public Boat() {
+		this(25.0, 75.0, 2);
 	}
 	
 	public Ticket addVehicle(Vehicle v) throws LoadingException{
@@ -27,6 +32,10 @@ public class Boat {
 			double price = accounting.getPrice(v);
 			Ticket t = new Ticket(price, p, v);
 			listing.add(t);
+			passengers +=1;
+			if (v instanceof Car) {
+				passengers += ((Car) v).getPassengerNb();
+			}
 			return t;
 		} catch (LoadingException e) {
 			throw e;
@@ -42,7 +51,7 @@ public class Boat {
 	}
 	
 	public Set<Ticket> getListingTicket(){
-		return null;
+		return listing;
 	}
 	
 	public Ticket getTicketFromVehicle(Vehicle v) {

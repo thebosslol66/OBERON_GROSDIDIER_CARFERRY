@@ -120,6 +120,7 @@ class Boat {
     -Accounting accounting
     -Set~Ticket~ listing
     -boolean canLoad
+    -int passengers
 
     +addVehicle(Vehicle v) Ticket
     +removeVehicle() Vehicle

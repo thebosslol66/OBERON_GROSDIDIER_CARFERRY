@@ -7,6 +7,7 @@ public class Accounting {
 	final double pricePerPassenger=3.0;
 	final double pricePerKgCargo=0.1;
 	
+	//Ask if driver is a passenger and is in storage 
 	double getPrice(Vehicle v) {
 		if (v instanceof Car) {
 			Car c = (Car) v;

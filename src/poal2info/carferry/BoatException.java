@@ -1,6 +1,6 @@
 package poal2info.carferry;
 
-public class LoadingException extends Exception {
+public class BoatException extends Exception {
 
 	/**
 	 * 
@@ -12,12 +12,14 @@ public class LoadingException extends Exception {
 		TOO_HEAVY,
 		DRIVER_HAVE_ALREADY_A_CAR,
 		CAR_IS_ALREADY_LOADED,
-		CANT_LOAD_DURING_UNLOAD
+		CANT_LOAD_DURING_UNLOAD,
+		BOAT_IS_EMPTY,
+		ROW_DONT_EXIST
 		}
 	
 	private Reason reason;
 	
-	public LoadingException(Reason r) {
+	public BoatException(Reason r) {
 		super();
 		reason = r;
 	}
@@ -39,6 +41,12 @@ public class LoadingException extends Exception {
 		}
 		case CANT_LOAD_DURING_UNLOAD:{
 			return "The boat is unloading it's phisically impossible to do that";
+		}
+		case BOAT_IS_EMPTY:{
+			return "Can't unload, the boat is empty";
+		}
+		case ROW_DONT_EXIST:{
+			return "You can't access to this row because it doesn't exist";
 		}
 		default:
 			return "You break the program";

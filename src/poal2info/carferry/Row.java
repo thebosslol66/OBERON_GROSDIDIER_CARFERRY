@@ -43,6 +43,7 @@ public class Row implements Comparable<Row> {
 		}
 		return weight;
 	}
+	
 	@Override
 	public int compareTo(Row r) {
 		return (int) (this.getTotalWeight() - r.getTotalWeight());

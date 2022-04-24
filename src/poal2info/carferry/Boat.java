@@ -23,9 +23,9 @@ public class Boat {
 		this(25.0, 75.0, 2);
 	}
 	
-	public Ticket addVehicle(Vehicle v) throws LoadingException{
+	public Ticket addVehicle(Vehicle v) throws BoatException{
 		if (!canLoad) {
-			throw new LoadingException(LoadingException.Reason.CANT_LOAD_DURING_UNLOAD);
+			throw new BoatException(BoatException.Reason.CANT_LOAD_DURING_UNLOAD);
 		}
 		try {
 			Position p = wedge.addVehicule(v);
@@ -37,16 +37,21 @@ public class Boat {
 				passengers += ((Car) v).getPassengerNb();
 			}
 			return t;
-		} catch (LoadingException e) {
+		} catch (BoatException e) {
 			throw e;
 		}
 	}
 	
-	public Vehicle removeVehicle() {
-		return wedge.removeVehicle();
+	public Vehicle removeVehicle() throws BoatException {
+		canLoad = false;
+		Vehicle v = wedge.removeVehicle();
+		if (wedge.isEmpty()){
+			canLoad = true;
+		}
+		return v;
 	}
 	
-	public Queue<Vehicle> getVehiculeRow(int rowNumber) {
+	public Queue<Vehicle> getVehiculeRow(int rowNumber) throws BoatException {
 		return wedge.getVehicleRow(rowNumber);
 	}
 	

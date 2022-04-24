@@ -92,6 +92,7 @@ class Wedge {
     -getLengthLeft(int rowNumber) double
     -getLengthLeft(Row r) double
     -getTotalWeigth() double
+    -isEmpty() boolean
 }
 
 class Ticket {

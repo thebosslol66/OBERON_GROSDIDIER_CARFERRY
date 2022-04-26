@@ -51,8 +51,7 @@ public class Wedge {
 		
 		Row bestRow = Collections.min(rowsWithEnougthSpace);
 		
-		bestRow.addVehicle(v);
-		return new Position(bestRow.getRowNumber(), bestRow.getVehicleNumber());
+		return bestRow.addVehicle(v);
 	}
 	
 	/*

@@ -9,16 +9,16 @@ Boat "1" -- "1*" Ticket
 Boat "1" -- "1" Accounting
 
 Row "1" -- "*" Vehicle
-Row --|> Comparabl~E~ : Implements
+Row --|> Comparable~E~ : Implements
 Wedge "1" -- "many" Row
 Vehicle <|-- Car
 Vehicle <|-- Truck
 Vehicle "1" -- "1" Driver
 Ticket "1" -- "1" Vehicle
-Ticket --|> Comparabl~E~ : Implements
+Ticket --|> Comparable~E~ : Implements
 Ticket "1" -- "1" Position
 
-class Comparabl~E~ {
+class Comparable~E~ {
     <<interface>>
 
     +compareTo(E e) int
@@ -69,15 +69,14 @@ class Truck {
 }
 
 class Row {
-    -Queue~Vehicle~ rows[]
+    -Queue~Vehicle~ row
     -int rowNumber
 
     +getTotalVehicleLength() double
     +getVehicleNumber() int
-    +addVehicle(Vehicle v) void
+    +addVehicle(Vehicle v) Position
     +removeVehicle() Vehicle
     +getTotalWeight() double
-    +getRowNumber() int
 }
 
 class Wedge {
@@ -90,7 +89,6 @@ class Wedge {
     +removeVehicle() Vehicle
     +getVehicleRow(int rowNumber) Queue~Vehicle~
     -getLengthLeft(int rowNumber) double
-    -getLengthLeft(Row r) double
     -getTotalWeigth() double
     -isEmpty() boolean
 }

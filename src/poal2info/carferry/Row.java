@@ -13,8 +13,9 @@ public class Row implements Comparable<Row> {
 		rowNumber = nb;
 	}
 	
-	public void addVehicle(Vehicle v) {
+	public Position addVehicle(Vehicle v) {
 		vehicleQueue.add(v);
+		return new Position(rowNumber, this.getVehicleNumber());
 	}
 	
 	public Vehicle removeVehicle() {
@@ -47,11 +48,6 @@ public class Row implements Comparable<Row> {
 	@Override
 	public int compareTo(Row r) {
 		return (int) (this.getTotalWeight() - r.getTotalWeight());
-	}
-
-	public int getRowNumber() {
-		// TODO Auto-generated method stub
-		return rowNumber;
 	}
 	
 	public Queue<Vehicle> getRow(){

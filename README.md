@@ -128,3 +128,6 @@ class Boat {
     +getTicketFromVehicle(Vehicle v) Ticket
 }
 ```
+
+[//]: # (Quentin Accounting Ticket Postion)
+[//]: # (Moi le reste)

@@ -129,5 +129,21 @@ class Boat {
 }
 ```
 
-[//]: # (Quentin Accounting Ticket Postion)
+[//]: # (Quentin Accounting Ticket Postion Vehicle)
 [//]: # (Moi le reste)
+
+## Boat
+
+This is the main class of this application.
+We decided to make this class to group all boat methods and to have one interface.Then we can add easly a class BAR or EXCHANGE OFFICE.
+We put listing directly in this class but we can put it in wedge too.
+We choose a Set for listing because we must be organise and all tickets are unique (one ticket per each different vehicle)
+
+## Wedge
+
+Group all methods for contain and manage vehicles. We set length, maxWeight and spaceBetweenVehicle here because it's common with all rows and all rows info are only used by this class.
+getTotalWeight(), getTotalVehicleLength() and getVehicleNumber() are only used by imself but if we want more information we can have here.
+
+## Row
+
+Manage vehicles in unique row. We implements comparable to sort easly rows when adding and removing vehicle from Wedge.

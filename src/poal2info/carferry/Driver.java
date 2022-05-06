@@ -33,4 +33,8 @@ public class Driver {
 	public int getPermNumber() {
 		return permNumber;
 	}
+	
+	public String toString() {
+		return name + " " + firstName;
+	}
 }

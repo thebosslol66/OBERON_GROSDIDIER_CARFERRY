@@ -1,11 +1,16 @@
 # Analise du projet Carferry
 
-```mermaid
+[//]: # (NOMS)
+[//]: # (Rapport final en francais)
+[//]: # (Rapport en francais)
 
+## Diagram
+
+```{.mermaid width=1600}
 classDiagram
 
 Boat "1" -- "1" Wedge
-Boat "1" -- "1*" Ticket
+Boat "1" -- "*" Ticket
 Boat "1" -- "1" Accounting
 
 Row "1" -- "*" Vehicle
@@ -83,6 +88,7 @@ class Wedge {
     -double length
     -double maxWeight
     -final double spaceBetweenVehicles
+    -Row row[]
     
 
     +addVehicle(Vehicle v) Position

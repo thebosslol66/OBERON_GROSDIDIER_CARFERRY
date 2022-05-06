@@ -1,6 +1,6 @@
 package poal2info.carferry;
 
-public class Vehicle {
+public abstract class Vehicle {
 
 	private String registration;
 	private double weight, length;
@@ -28,6 +28,10 @@ public class Vehicle {
 	
 	public String getRegistration() {
 		return registration;
+	}
+	
+	public String toString() {
+		return driver + " " + registration;
 	}
 
 }

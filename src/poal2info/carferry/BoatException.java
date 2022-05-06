@@ -7,7 +7,7 @@ public class BoatException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	 enum Reason {
+	 public enum Reason {
 		NOT_ENOUGTH_SPACE,
 		TOO_HEAVY,
 		DRIVER_HAVE_ALREADY_A_CAR,

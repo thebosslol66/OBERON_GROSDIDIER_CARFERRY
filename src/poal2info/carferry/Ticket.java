@@ -19,6 +19,10 @@ public class Ticket implements Comparable<Ticket>{
 		return vehicle.equals(t.vehicle);
 	}
 	
+	public boolean equals(Vehicle v) {
+		return vehicle.equals(v);
+	}
+	
 	public int compareTo(Ticket t) {
 		return 0;
 	}

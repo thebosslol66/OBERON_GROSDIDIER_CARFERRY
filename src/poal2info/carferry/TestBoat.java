@@ -1,5 +1,6 @@
 package poal2info.carferry;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
@@ -178,6 +179,22 @@ class TestBoat {
 			assertEquals(TestBoatUtils.c2, d.poll());
 			assertEquals(TestBoatUtils.v3, g.poll());
 		}
+		
+		@Test
+		void testLoadingPassengerLikeAsking() throws BoatException {
+			try {
+				b.addVehicle(TestBoatUtils.c1);
+				b.addVehicle(TestBoatUtils.v1);
+				b.addVehicle(TestBoatUtils.v2);
+				b.addVehicle(TestBoatUtils.c2);
+				b.addVehicle(TestBoatUtils.v3);
+			} catch (BoatException e) {
+				e.printStackTrace();
+				fail("You must organise vehicle in wedge");
+			}
+			
+			assertEquals(11, b.getPassengers());
+		}
 	}
 	
 	@Tag("Unload")
@@ -266,6 +283,128 @@ class TestBoat {
 			}
 		}
 		
+		@Test
+		void testUnloadingPassenger() throws BoatException {
+			assertEquals(11, b.getPassengers());
+			assertEquals(TestBoatUtils.v1, b.removeVehicle());
+			assertEquals(10, b.getPassengers());
+			assertEquals(TestBoatUtils.v2, b.removeVehicle());
+			assertEquals(5, b.getPassengers());
+			assertEquals(TestBoatUtils.c2, b.removeVehicle());
+			assertEquals(4, b.getPassengers());
+			assertEquals(TestBoatUtils.c1, b.removeVehicle());
+			assertEquals(3, b.getPassengers());
+			assertEquals(TestBoatUtils.v3, b.removeVehicle());
+			assertEquals(0, b.getPassengers());
+		}
 	}
-
+	
+	@Tag("Ticket")
+	@Nested
+	class testTicket {
+		
+		@BeforeEach
+		void setUp() throws Exception {
+			b = new Boat(25.0, 75.0, 2);
+		}
+	
+		@AfterEach
+		void tearDown() throws Exception {
+			b = null;
+		}
+		
+		@Tag("ListingTicket")
+		@Test
+		void testEmptyTicketList() {
+			assertEquals(null, b.getTicketFromVehicle(TestBoatUtils.v1));
+		}
+		
+		@Tag("ListingTicket")
+		@Test
+		void testSearchExistingTicket() throws BoatException {
+			b.addVehicle(TestBoatUtils.c1);
+			b.addVehicle(TestBoatUtils.v1);
+			b.addVehicle(TestBoatUtils.v2);
+			Ticket t = b.getTicketFromVehicle(TestBoatUtils.c1);
+			assertNotNull(t);
+			assertEquals(t.getRegistration(), TestBoatUtils.c1.getRegistration());
+			t = b.getTicketFromVehicle(TestBoatUtils.v1);
+			assertNotNull(t);
+			assertEquals(t.getRegistration(), TestBoatUtils.v1.getRegistration());
+			t = b.getTicketFromVehicle(TestBoatUtils.v2);
+			assertEquals(t.getRegistration(), TestBoatUtils.v2.getRegistration());
+			assertNotNull(t);
+		}
+		
+		@Tag("ListingTicket")
+		@Test
+		void testPositionOfTicket() throws BoatException {
+			b.addVehicle(TestBoatUtils.c1);
+			b.addVehicle(TestBoatUtils.v1);
+			b.addVehicle(TestBoatUtils.v2);
+			Ticket t = b.getTicketFromVehicle(TestBoatUtils.c1);
+			assertNotNull(t);
+			assertEquals(0, t.getPlaceInWedge().getRow());
+			assertEquals(1, t.getPlaceInWedge().getPos());
+			t = b.getTicketFromVehicle(TestBoatUtils.v1);
+			assertNotNull(t);
+			assertEquals(1, t.getPlaceInWedge().getRow());
+			assertEquals(1, t.getPlaceInWedge().getPos());
+			t = b.getTicketFromVehicle(TestBoatUtils.v2);
+			assertNotNull(t);
+			assertEquals(1, t.getPlaceInWedge().getRow());
+			assertEquals(2, t.getPlaceInWedge().getPos());
+		}
+		
+		@Tag("AttributeTicket")
+		@Test
+		void testDriverInTicket() throws BoatException {
+			b.addVehicle(TestBoatUtils.c1);
+			Ticket t = b.getTicketFromVehicle(TestBoatUtils.c1);
+			assertNotNull(t);
+			assertEquals(TestBoatUtils.c1.getDriver().getFirstName(), t.getFirstName());
+			assertEquals(TestBoatUtils.c1.getDriver().getName(), t.getName());
+		}
+		
+		@Tag("AttributeTicket")
+		@Test
+		void testPriceInTicket() throws BoatException {
+			b.addVehicle(TestBoatUtils.c1);
+			Ticket t = b.getTicketFromVehicle(TestBoatUtils.c1);
+			assertNotNull(t);
+			assertEquals(new Accounting().getPrice(TestBoatUtils.c1), t.getPrice());
+		}
+	}
+	
+	@Nested
+	@Tag("Accounting")
+	class testAccounting {
+		
+		Accounting a;
+		
+		@BeforeEach
+		void setUp() throws Exception {
+			a = new Accounting();
+		}
+	
+		@AfterEach
+		void tearDown() throws Exception {
+			a = null;
+		}
+		
+		@Test
+		void TestCarPrice() {
+			assertEquals(35, a.getPrice(TestBoatUtils.v1));
+			assertEquals(47, a.getPrice(TestBoatUtils.v2));
+			assertEquals(41, a.getPrice(TestBoatUtils.v3));
+		}
+		
+		@Test
+		void TestTruckPrice() {
+			assertEquals(1545, a.getPrice(TestBoatUtils.c1));
+			assertEquals(2295, a.getPrice(TestBoatUtils.c2));
+			assertEquals(1845, a.getPrice(TestBoatUtils.c3));
+		}
+		
+	}
 }

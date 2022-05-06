@@ -15,7 +15,7 @@ public class Accounting {
 		}
 		else if (v instanceof Truck) {
 			Truck t = (Truck) v;
-			return baseTruckPrice + t.getCargoWeight() * pricePerKgCargo;
+			return baseTruckPrice + t.getCargoWeight() * 1000 * pricePerKgCargo;
 		}
 		else {
 			return 0;

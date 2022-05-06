@@ -1,5 +1,7 @@
 package poal2info.carferry;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
@@ -15,7 +17,7 @@ public class Boat {
 	public Boat(double length, double weight, int rows) {
 		wedge = new Wedge(length, weight, rows);
 		accounting = new Accounting();
-		listing = new TreeSet<Ticket>();
+		listing = new HashSet<Ticket>();
 		canLoad = true;
 	}
 	
@@ -48,6 +50,10 @@ public class Boat {
 		if (wedge.isEmpty()){
 			canLoad = true;
 		}
+		passengers -= 1;
+		if (v instanceof Car) {
+			passengers -= ((Car) v).getPassengerNb();
+		}
 		return v;
 	}
 	
@@ -60,7 +66,16 @@ public class Boat {
 	}
 	
 	public Ticket getTicketFromVehicle(Vehicle v) {
+		for (Iterator<Ticket> it = listing.iterator(); it.hasNext(); ) {
+			Ticket t = it.next();
+	        if (t.equals(v))
+	            return t;
+	    }
 		return null;
+	}
+
+	public Integer getPassengers() {
+		return passengers;
 	}
 
 }

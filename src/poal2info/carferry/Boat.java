@@ -45,7 +45,7 @@ public class Boat {
 	public Boat(double length, double weight, int rows) {
 		wedge = new Wedge(length, weight, rows);
 		accounting = new Accounting();
-		listing = new HashSet<Ticket>();
+		listing = new TreeSet<Ticket>();
 		canLoad = true;
 	}
 	

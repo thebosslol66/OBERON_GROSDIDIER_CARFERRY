@@ -1,13 +1,25 @@
 package poal2info.carferry;
 
+/**
+ * The class to raise exception in Boat
+ * We prefer only one class to be more concise and easier to understand
+ * @author GROSDIDIER Alphée
+ * @author OBERON Quentin
+ */
 public class BoatException extends Exception {
 
 	/**
-	 * 
+	 * I don't know why we need to use that
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	 public enum Reason {
+	 /**
+	 * All possible exception in the boat
+	 * 
+	 * @author GROSDIDIER Alphée
+	 * @author OBERON Quentin
+	 */
+	public enum Reason {
 		NOT_ENOUGTH_SPACE,
 		TOO_HEAVY,
 		DRIVER_HAVE_ALREADY_A_CAR,
@@ -19,11 +31,17 @@ public class BoatException extends Exception {
 	
 	private Reason reason;
 	
+	/**
+	 * @param r the reason of exception
+	 */
 	public BoatException(Reason r) {
 		super();
 		reason = r;
 	}
 	
+	/**
+	 * @return the text for each exception
+	 */
 	@Override
 	public String getMessage() {
 		switch(reason) {
@@ -52,6 +70,10 @@ public class BoatException extends Exception {
 			return "You break the program";
 		}
 	}
+	
+	/**
+	 * @return the reason of exception
+	 */
 	public Reason getReason() {
 		return this.reason;
 	}

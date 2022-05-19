@@ -44,20 +44,15 @@ public class RegisterFrame extends JFrame implements ActionListener {
 	private JFormattedTextField inputPassenger, inputWeight, inputLength, inputCargoWeight;
 	private JButton buttonValider;
 	
-	private Boat boat;
-	private MainFrame root;
-	
 	NumberFormat passengerFieldFormatter;
 	DecimalFormat weigthAndLengthFieldFormatter;
 	
 	
-	public RegisterFrame(MainFrame _root, Boat _boat) {
+	public RegisterFrame(ActionListener a) {
 		super("CAR FERRY - Embarquement");
 		this.setMinimumSize(new Dimension(300, 200));
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		boat = _boat;
-		root = _root;
+
 		this.c = this.getContentPane();
 		this.c.setLayout(new BoxLayout(this.c, BoxLayout.Y_AXIS));
 		
@@ -170,9 +165,9 @@ public class RegisterFrame extends JFrame implements ActionListener {
 		panelDriverPerm.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelButton.setLayout(new GridLayout());
 		
-		carButton.addActionListener(this);
-		TruckButton.addActionListener(this);
-		buttonValider.addActionListener(this);
+		carButton.addActionListener(a);
+		TruckButton.addActionListener(a);
+		buttonValider.addActionListener(a);
 		
 		this.pack();
 		this.setVisible(true);
@@ -183,57 +178,39 @@ public class RegisterFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (o instanceof JRadioButton){
-			if (o.equals(carButton)) {
-				inputCargoWeight.setValue(null);
-				inputCargoWeight.setEnabled(false);
-				inputPassenger.setValue(0);
-				inputPassenger.setEnabled(true);
-			}
-			if (o.equals(TruckButton)) {
-				inputPassenger.setValue(null);
-				inputPassenger.setEnabled(false);
-				inputCargoWeight.setValue(0);
-				inputCargoWeight.setEnabled(true);
-			}
-		}
-		if (o instanceof JButton){
-			 if (o.equals(buttonValider)){
-				 validateForm();
-			 }
-		}
+		
 	}
 
-	private void validateForm() {
+	public Vehicle vehicleFromForm() {
 		String registration = inputRegistration.getText();
 		if (registration.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Veuillez rensegner votre imatriculation", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			return;
+			return null;
 		}
 		String[] resitrationParts = registration.split(" ");
 		if (resitrationParts.length != 3 || Pattern.matches("[a-zA-Z]+", resitrationParts[0]) == false || Pattern.matches("[0-9]+", resitrationParts[1]) == false || Pattern.matches("[a-zA-Z]+", resitrationParts[2]) == false) {
 			JOptionPane.showMessageDialog(this, "Votre immatriculation ne coresond pas: XX 000 XX", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			return;
+			return null;
 		}
 		int passenger = 0;
 		if (carButton.isSelected()) {
 			passenger = Integer.valueOf(inputPassenger.getText());
 			if (passenger < 0) {
 				JOptionPane.showMessageDialog(this, "Le nombre de passager doit être au moin de 0", "Embarquement", JOptionPane.WARNING_MESSAGE);
-				return;
+				return null;
 			}
 		}
 		
 		double weight = Double.valueOf(inputWeight.getText());
 		if (weight < 0) {
 			JOptionPane.showMessageDialog(this, "Le poid de votre véhicule ne peux pas être négatif", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			return;
+			return null;
 		}
 		
 		double length = Double.valueOf(inputLength.getText());
 		if (length < 0) {
 			JOptionPane.showMessageDialog(this, "Le longueur de votre véhicule ne peux pas être négatif", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			return;
+			return null;
 		}
 		
 		double cargoWeigth = 0;
@@ -241,26 +218,26 @@ public class RegisterFrame extends JFrame implements ActionListener {
 			cargoWeigth = Double.valueOf(inputCargoWeight.getText());
 			if (cargoWeigth < 0) {
 				JOptionPane.showMessageDialog(this, "Le poid dez la cargaison de votre camion ne peux pas être négatif", "Embarquement", JOptionPane.WARNING_MESSAGE);
-				return;
+				return null;
 			}
 		}
 		
 		String driverName = inputDriverName.getText();
 		if (driverName.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Veuillez rensegner le nom du conducteur", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			return;
+			return null;
 		}
 		
 		String driverFirstName = inputDriverFirstName.getText();
 		if (driverFirstName.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Veuillez rensegner le prénom du conducteur", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			return;
+			return null;
 		}
 		
 		String driverPerm = inputDriverPerm.getText().replace(" ", "");
 		if (driverPerm.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Veuillez rensegner le numéro de pérmis du conducteur", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			return;
+			return null;
 		}
 		
 		Driver d = new Driver(driverName, driverFirstName, Integer.valueOf(driverPerm));
@@ -272,33 +249,36 @@ public class RegisterFrame extends JFrame implements ActionListener {
 			v = new Truck(registration, weight, length, d, cargoWeigth);
 		}
 		
-		try {
-			boat.addVehicle(v);
-			this.dispose();//close window
-		}
-		catch (BoatException e) {
-			this.dispose();//close window
-			switch(e.getReason()) {
-			case NOT_ENOUGTH_SPACE:{
-				JOptionPane.showMessageDialog(root, "Embarquement impossible : plus d'éspace disponible", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			}break;
-			case TOO_HEAVY:{
-				JOptionPane.showMessageDialog(root, "Embarquement impossible : limite de poids atteinte", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			}break;
-			case DRIVER_HAVE_ALREADY_A_CAR:{
-				JOptionPane.showMessageDialog(root, "Embarquement impossible : un véhicule a déjà été associè a ce conducteur", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			}break;
-			case CAR_IS_ALREADY_LOADED:{
-				JOptionPane.showMessageDialog(root, "Embarquement impossible : ce véhicule a déjà été chargé", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			}break;
-			case CANT_LOAD_DURING_UNLOAD:{
-				JOptionPane.showMessageDialog(root, "Embarquement impossible : nous débarquons déjà d'autres véhicules", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			}break;
-			default:
-				JOptionPane.showMessageDialog(root, "Une erreur est survenue lors du chargement du véhicule", "Embarquement", JOptionPane.WARNING_MESSAGE);
-			}
-		}
+		return v;
 		
+	}
+
+
+
+	public Object getCarButton() {
+		return carButton;
+	}
+
+	public Object getTruckButton() {
+		return TruckButton;
+	}
+
+	public void activateCarsButton() {
+		inputCargoWeight.setValue(null);
+		inputCargoWeight.setEnabled(false);
+		inputPassenger.setValue(0);
+		inputPassenger.setEnabled(true);
 		
+	}
+
+	public void activateTrucksButton() {
+		inputPassenger.setValue(null);
+		inputPassenger.setEnabled(false);
+		inputCargoWeight.setValue(0);
+		inputCargoWeight.setEnabled(true);
+	}
+	
+	public Object getButtonValider() {
+		return buttonValider;
 	}
 }

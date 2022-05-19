@@ -29,7 +29,11 @@ import poal2info.carferry.BoatException;
 import poal2info.carferry.Vehicle;
 
 
-public class MainFrame extends JFrame implements ActionListener{
+/**
+ * @author GROSDIDIER Alphée
+ *
+ */
+public class MainFrame extends JFrame {
 
 	/**
 	 * 
@@ -42,17 +46,17 @@ public class MainFrame extends JFrame implements ActionListener{
 	private JButton embarquer, debarquer; 
 	private JMenuItem caleMenuItem;
 	
-	private Boat boat;
-	private WedgeFrame wedgeFrame = null;
-	private RegisterFrame registerFrame = null;
 	
-	public MainFrame(Boat _boat) {
+	
+	/**
+	 * Constructor to create the main frame with all it's widget.
+	 * 
+	 */
+	public MainFrame(ActionListener a) {
 		//Initialisation de base
 		super("CAR FERRY");
 		this.setSize(300, 200);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		boat = _boat;
 		
 		// Création de la barre de menu
 		jmb = new JMenuBar();
@@ -87,68 +91,26 @@ public class MainFrame extends JFrame implements ActionListener{
 		buttonP.add(Box.createHorizontalGlue());
 		c.add(buttonP);
 		buttonP.setOpaque(false);
-		c.setBackground(Color.GREEN); 
+		c.setBackground(Color.GREEN);
 		
-		
-		embarquer.addActionListener(this);
-		debarquer.addActionListener(this);
-		caleMenuItem.addActionListener(this);
+		embarquer.addActionListener(a);
+		debarquer.addActionListener(a);
+		caleMenuItem.addActionListener(a);
 		
 		this.setVisible(true);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object o = e.getSource();
-		if (o instanceof JMenuItem){
-			if (o.equals(caleMenuItem)) {
-				if (wedgeFrame == null || !wedgeFrame.isShowing()) {
-					wedgeFrame = new WedgeFrame(boat);
-				}
-				else {
-					wedgeFrame.setVisible(true);
-					wedgeFrame.toFront();
-					wedgeFrame.requestFocus();
-				}
-			}
-		}
-		if (o instanceof JButton){
-			if (o.equals(embarquer)) {
-				if (registerFrame == null || !registerFrame.isShowing()) {
-					registerFrame = new RegisterFrame(this, boat);
-					//get event when registration window close yo update wedge
-					registerFrame.addWindowListener(new WindowAdapter() {
-			            @Override
-			            public void windowClosed(WindowEvent e) {
-			            	if (wedgeFrame != null && wedgeFrame.isShowing()) {
-								wedgeFrame.update();
-								System.out.print("update");
-							}
-			            }
-			        });
-				}
-				else {
-					registerFrame.setVisible(true);
-					registerFrame.toFront();
-					registerFrame.requestFocus();
-				}
-			}
-			if (o.equals(debarquer)) {
-				try {
-					Vehicle v = boat.removeVehicle();
-					if (wedgeFrame != null && wedgeFrame.isShowing()) {
-						wedgeFrame.update();
-					}
-					JOptionPane.showMessageDialog(this, "Débarquement " + v.getRegistration(), "Débarquement", JOptionPane.WARNING_MESSAGE);
-				}
-				catch (BoatException ex) {
-					if (ex.getReason() == BoatException.Reason.BOAT_IS_EMPTY) {
-						JOptionPane.showMessageDialog(this, "La cale est vide", "Débarquement", JOptionPane.WARNING_MESSAGE);
-					}
-				}
-			}
-		}
-		
+	public Object getCaleMenuItem() {
+		return caleMenuItem;
 	}
+
+	public Object getDebarquer() {
+		return debarquer;
+	}
+
+	public Object getEmbarquer() {
+		return embarquer;
+	}
+
 
 }

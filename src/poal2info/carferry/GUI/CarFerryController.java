@@ -2,7 +2,6 @@ package poal2info.carferry.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
@@ -22,9 +21,11 @@ import poal2info.carferry.Ticket;
 import poal2info.carferry.Truck;
 import poal2info.carferry.Vehicle;
 
-public class CarFerryController implements ActionListener{
+public class CarFerryController implements ActionListener, MouseListener{
 	
-	
+	/**
+	 * Sets of initial vehicles
+	 */
 	public static final Driver d1 = new Driver("Martin", "Jeanne", 22);
 	public static final Driver d2 = new Driver("Dupont", "Vincent", 55);
 	public static final Driver d3 = new Driver("Durand", "Marie", 34);
@@ -43,6 +44,7 @@ public class CarFerryController implements ActionListener{
 	private MainFrame mainGUI;
 	private WedgeFrame wedgeFrame = null;
 	private RegisterFrame registerFrame = null;
+	
 	public CarFerryController() {
 		b = new Boat();
 		
@@ -54,52 +56,23 @@ public class CarFerryController implements ActionListener{
 			e.printStackTrace();
 		}
 		
+		//create the main window
 		mainGUI = new MainFrame(this);
 	}
 
+	/* 
+	 * checks if an action has been performed and opens the corresponding window
+	*/
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o instanceof JMenuItem){
 			if (o.equals(mainGUI.getCaleMenuItem())) {
 				if (wedgeFrame == null || !wedgeFrame.isShowing()) {
-					wedgeFrame = new WedgeFrame(b);
-					
-					
-					MouseListener listInfoListener = new MouseAdapter() {
-						private WedgeFrame parent;
-						private JOptionPane dialogBox;
-						private MouseAdapter init(WedgeFrame _parent) {
-							parent = _parent;
-							return this;
-						}
-					      public void mouseClicked(MouseEvent mouseEvent) {
-					    	 Object o = mouseEvent.getSource();
-					    	 if (!(o instanceof JList)) {
-					    		 return;
-					    	 }
-					        JList<Object> theList = (JList<Object>) o ;
-					        if (mouseEvent.getClickCount() >= 2) {
-					        	Vehicle vehicleSelected = (Vehicle) theList.getSelectedValue();
-					        	Ticket t = b.getTicketFromVehicle(vehicleSelected);
-					        	String message = "[ ";
-					        	switch(t.getPlaceInWedge().getRow()) {
-					        	case 0:{
-					        		message += "G";
-					        	}break;
-					        	case 1:{
-					        		message += "D";
-					        	}break;
-					        	default:
-					        		message += "?";
-					        	}
-					        	message += t.getPlaceInWedge().getPos() + " " + t.getName() + " " + t.getFirstName() + " " +t.getRegistration() + " " + t.getPrice() + "euros ]";
-					        	JOptionPane.showMessageDialog(parent, message, "TICKET", JOptionPane.INFORMATION_MESSAGE);
-					        }
-					      }
-					}.init(wedgeFrame);
-					
-					wedgeFrame.appendEventListener(listInfoListener);
+					wedgeFrame = new WedgeFrame();
+					wedgeFrame.update(b);
+					wedgeFrame.appendEventListener(this);
 				}
 				else {
 					wedgeFrame.setVisible(true);
@@ -142,7 +115,7 @@ public class CarFerryController implements ActionListener{
 					}
 				}
 			}
-			 if (o.equals(registerFrame.getButtonValider())){
+			 if (registerFrame != null && o.equals(registerFrame.getButtonValider())){
 				 Vehicle v = registerFrame.vehicleFromForm();
 				 if (v == null) {
 					 return;
@@ -186,6 +159,70 @@ public class CarFerryController implements ActionListener{
 			}
 		}
 		
+		
+	}
+
+	/**
+	 * Check event for mouse clicking
+	 * Usefull for JList to see informations about a vehicle
+	 */
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		Object o = e.getSource();
+	   	 if (!(o instanceof JList)) {
+	   		 return;
+	   	 }
+	   	 if (wedgeFrame != null) {
+	       JList<Object> theList = (JList<Object>) o ;
+	       if (e.getClickCount() >= 2) {
+	       	Vehicle vehicleSelected = (Vehicle) theList.getSelectedValue();
+	       	Ticket t = b.getTicketFromVehicle(vehicleSelected);
+	       	String message = "[ ";
+	       	switch(t.getPlaceInWedge().getRow()) {
+	       	case 0:{
+	       		message += "G";
+	       	}break;
+	       	case 1:{
+	       		message += "D";
+	       	}break;
+	       	default:
+	       		message += "?";
+	       	}
+	       	message += t.getPlaceInWedge().getPos() + " " + t.getName() + " " + t.getFirstName() + " " +t.getRegistration() + " " + t.getPrice() + "euros ]";
+	       	JOptionPane.showMessageDialog(wedgeFrame, message, "TICKET", JOptionPane.INFORMATION_MESSAGE);
+	       }
+	   	 }
+	}
+
+	/**
+	 * Theses are methods not use in project but implemented by interfaces
+	 */
+	@Override
+	public void mousePressed(MouseEvent e) {
+		
+	}
+
+	/**
+	 * Theses are methods not use in project but implemented by interfaces
+	 */
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+	
+	/**
+	 * Theses are methods not use in project but implemented by interfaces
+	 */
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+	/**
+	 * Theses are methods not use in project but implemented by interfaces
+	 */
+	@Override
+	public void mouseExited(MouseEvent e) {
 		
 	}
 

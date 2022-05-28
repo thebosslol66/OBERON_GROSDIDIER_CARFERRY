@@ -1,14 +1,11 @@
 package poal2info.carferry.GUI;
 
-import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -25,14 +22,18 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import poal2info.carferry.Boat;
-import poal2info.carferry.BoatException;
 import poal2info.carferry.Car;
 import poal2info.carferry.Driver;
 import poal2info.carferry.Truck;
 import poal2info.carferry.Vehicle;
 
-public class RegisterFrame extends JFrame implements ActionListener {
+/**
+ * @author GROSDIDIER Alphée
+ * @author OBERON Quentin
+ *
+ * The class to manage the registration of vehicle
+ */
+public class RegisterFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -48,7 +49,13 @@ public class RegisterFrame extends JFrame implements ActionListener {
 	DecimalFormat weigthAndLengthFieldFormatter;
 	
 	
+	/**
+	 * Constructor to create the register frame with all it's widget.
+	 * 
+	 * @param a the action listener for the window
+	 */
 	public RegisterFrame(ActionListener a) {
+		// creation de la fenetre
 		super("CAR FERRY - Embarquement");
 		this.setMinimumSize(new Dimension(300, 200));
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -65,16 +72,19 @@ public class RegisterFrame extends JFrame implements ActionListener {
 		custom.setDecimalSeparator('.');
 		weigthAndLengthFieldFormatter.setDecimalFormatSymbols(custom);
 		
+		// car/truck choice button
 		JPanel vehicleChoice = new JPanel();
 		carButton = new JRadioButton("Voiture");
 		carButton.setSelected(true);
 		TruckButton = new JRadioButton("Camion");
 		
+		// link button
 		vehicleGroup = new ButtonGroup();
 		vehicleGroup.add(carButton);
 		vehicleGroup.add(TruckButton);
 		
 		
+		// creation of all registration fields
 		JPanel panelRegistration = new JPanel();
 		inputRegistration = new JTextField(20);
 		
@@ -142,6 +152,8 @@ public class RegisterFrame extends JFrame implements ActionListener {
 		panelButton.add(buttonValider);
 		this.c.add(panelButton);
 		
+		
+		// show buttons 
 		vehicleChoice.setBackground(Color.RED);
 		this.c.setBackground(Color.GREEN);
 		panelRegistration.setOpaque(false);
@@ -165,6 +177,7 @@ public class RegisterFrame extends JFrame implements ActionListener {
 		panelDriverPerm.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelButton.setLayout(new GridLayout());
 		
+		
 		carButton.addActionListener(a);
 		TruckButton.addActionListener(a);
 		buttonValider.addActionListener(a);
@@ -173,14 +186,13 @@ public class RegisterFrame extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object o = e.getSource();
-		
-	}
-
+	
+	/**
+	 * Check if the inputs are correct
+	 * 
+	 * If not we show to the user the form problem
+	 * @return Vehicle if all inputs are correct, else null
+	 */
 	public Vehicle vehicleFromForm() {
 		String registration = inputRegistration.getText();
 		if (registration.isEmpty()) {
@@ -254,15 +266,25 @@ public class RegisterFrame extends JFrame implements ActionListener {
 	}
 
 
-
+	/**
+	 * @return the instance of radiobutton Car
+	 */
 	public Object getCarButton() {
 		return carButton;
 	}
 
+	/**
+	 * @return the instance of radiobutton Truck
+	 */
 	public Object getTruckButton() {
 		return TruckButton;
 	}
 
+	 
+	/**
+	 * Activate input form  for car
+	 * Here we enable passenger end disable cargoWeight
+	 */
 	public void activateCarsButton() {
 		inputCargoWeight.setValue(null);
 		inputCargoWeight.setEnabled(false);
@@ -270,7 +292,11 @@ public class RegisterFrame extends JFrame implements ActionListener {
 		inputPassenger.setEnabled(true);
 		
 	}
-
+	
+	/**
+	 * Activate input form for Truck
+	 * Here we enable cargoWeight input and disable passenger
+	 */
 	public void activateTrucksButton() {
 		inputPassenger.setValue(null);
 		inputPassenger.setEnabled(false);
@@ -278,6 +304,10 @@ public class RegisterFrame extends JFrame implements ActionListener {
 		inputCargoWeight.setEnabled(true);
 	}
 	
+	
+	/**
+	 * @return the instance for the validate form
+	 */
 	public Object getButtonValider() {
 		return buttonValider;
 	}

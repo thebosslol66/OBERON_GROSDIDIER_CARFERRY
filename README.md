@@ -1,3 +1,6 @@
+<style>
+.mermaid { width:1600px; }
+</style>
 <div align='center'>
 
 # Project Carferry
@@ -85,10 +88,6 @@ Ce sont les seules libertés que nous avons prises par rapport au sujet.
 ## Conception de l'application
 
 ### Diagramme
-
-<style>
-.mermaid { width:1600px; }
-</style>
 
 ```mermaid
 classDiagram
@@ -392,10 +391,11 @@ On pourra vérifier que les informations sont justes et que les positions sont c
 ![Fenêtre d'enregistrement d'un véhicule](./img/ragisterFrame_overview.png)
 
 Pour expliquer rapidement cette fenêtre, on a tous les champs pour enregistrer un véhicule.
-Les points à noter sont que pour une voiture, le champ du poids de la cargaison est inaccessible.
-Nous n'avons pas de champ cargaison pour une voiture donc il ne sert à rien de l'activer.
-Si tout se passe bien la fenêtre se ferme sans aucun message. Sinon une fenêtre indiquera l'erreur qui est survenue.
-On peut voir ici un exemple;  
+Les point a notées sont que pour une voiture, le champ du poid de la cargaison est innaccessible.
+Nous n'avons pas de champ cargaison pour une voiture donc il ne sert a rien de l'activé.
+Si tout se passe bien la fenêtre se ferme sans aucun message. Sinon une fenêtre indiqueras l'érreur qui est survenue.
+On peux voir ici un exemple:
+
 ![Exemple d'erreur de chargement](./img/exemple_derreur.png)
 
 ![Exemple d'un débarquement](./img/exemple_dechargement.png)
@@ -473,7 +473,7 @@ Le travail en binôme a été réaliser en séparant la charge de travail dans l
 
 ### Bilan du travail pour la formation
 
-Ce projet a été un vrai atout dans la formation il a permis de mettre en pratique toute la théorie aborder en cours, de  beaucoup programmé en java et donc de s'améliorer mais aussi de découvrir de nouvelles choses, de nouvelle solution, de mieux identifier et comprendre en cahier des charges et d'apporter une solution logicielle à un problème précis.
+Ce projet a été un vrai atout dans la formation il a permis de mettre en pratique toute la théorie aborder en cours, de beaucoup programmé en java et donc de s'améliorer mais aussi de découvrir de nouvelles choses, de nouvelle solution, de mieux identifier et comprendre en cahier des charges et d'apporter une solution logicielle à un problème précis.
 
 ### Améliorations possibles mais non réalisées
 

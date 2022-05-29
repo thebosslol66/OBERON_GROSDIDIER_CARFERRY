@@ -113,6 +113,7 @@ class TestBoat {
 			assertEquals("There is no free place for this vehicle", exception.getMessage());
 		}
 		
+		@Tag("BoatExeptions")
 		@Test
 		void testMaxWeightException() {
 			Vehicle HeavyC1 = new Car("RM 1054 FF", 4.0, 3.5, TestBoatUtils.d1, 0);
@@ -130,6 +131,58 @@ class TestBoat {
 			);
 			assertEquals(BoatException.Reason.TOO_HEAVY, ((BoatException)exception).getReason());
 			assertEquals("The boat can't handle more weight", exception.getMessage());
+		}
+		
+		@Tag("BoatExeptions")
+		@Test
+		void testDuplicateVehicleException() {
+			try {
+				b.addVehicle(TestBoatUtils.v1);
+			} catch (BoatException e) {
+				e.printStackTrace();
+				fail("You must organise vehicle in wedge");
+			}
+			Throwable exception = assertThrows(BoatException.class,
+					() -> b.addVehicle(TestBoatUtils.v1)
+			);
+			assertEquals(BoatException.Reason.CAR_IS_ALREADY_LOADED, ((BoatException)exception).getReason());
+			assertEquals("The vehicle is already in the boat", exception.getMessage());
+		}
+		
+		@Tag("BoatExeptions")
+		@Test
+		void testSameDriverException() {
+			Vehicle vd = new Car("PO 377 AA",  1.4, 4.5, TestBoatUtils.d1, 4);
+					
+			try {
+				b.addVehicle(TestBoatUtils.v1);
+			} catch (BoatException e) {
+				e.printStackTrace();
+				fail("You must organise vehicle in wedge");
+			}
+			Throwable exception = assertThrows(BoatException.class,
+					() -> b.addVehicle(vd)
+			);
+			assertEquals(BoatException.Reason.DRIVER_HAVE_ALREADY_A_CAR, ((BoatException)exception).getReason());
+			assertEquals("The vehicle have a driver which have already a vehicle in the boat", exception.getMessage());
+		}
+		
+		@Tag("BoatExeptions")
+		@Test
+		void testSameVehicleException() {
+			Vehicle vd = new Car("RM 1054 FF", 1.2, 4.2, TestBoatUtils.d2, 0);
+			
+			try {
+				b.addVehicle(TestBoatUtils.v1);
+			} catch (BoatException e) {
+				e.printStackTrace();
+				fail("You must organise vehicle in wedge");
+			}
+			Throwable exception = assertThrows(BoatException.class,
+					() -> b.addVehicle(vd)
+			);
+			assertEquals(BoatException.Reason.CAR_IS_ALREADY_LOADED, ((BoatException)exception).getReason());
+			assertEquals("The vehicle is already in the boat", exception.getMessage());
 		}
 		
 		@Test
@@ -247,6 +300,7 @@ class TestBoat {
 			assertEquals(TestBoatUtils.v3, b.removeVehicle());
 		}
 		
+		@Tag("BoatExeptions")
 		@Test
 		void testEmptyException() throws BoatException {
 			assertEquals(TestBoatUtils.v1, b.removeVehicle());
@@ -261,6 +315,7 @@ class TestBoat {
 			assertEquals("Can't unload, the boat is empty", exception.getMessage());
 		}
 		
+		@Tag("BoatExeptions")
 		@Test
 		void testLoadDuringUnload() throws BoatException {
 			assertEquals(TestBoatUtils.v1, b.removeVehicle());

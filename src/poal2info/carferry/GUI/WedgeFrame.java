@@ -106,7 +106,6 @@ public class WedgeFrame extends JFrame {
 		rightRowList.setListData(listDataVehicle(b, 1));
 	}
 
-
 	/**
 	 * Set JList listener
 	 * 

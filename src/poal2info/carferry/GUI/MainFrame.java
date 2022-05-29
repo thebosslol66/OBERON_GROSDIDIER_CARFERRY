@@ -42,6 +42,7 @@ public class MainFrame extends JFrame {
 		//Initialisation de base
 		super("CAR FERRY");
 		this.setSize(300, 200);
+		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// Création de la barre de menu

@@ -262,7 +262,6 @@ public class RegisterFrame extends JFrame {
 		}
 		
 		return v;
-		
 	}
 
 
@@ -279,7 +278,6 @@ public class RegisterFrame extends JFrame {
 	public Object getTruckButton() {
 		return TruckButton;
 	}
-
 	 
 	/**
 	 * Activate input form  for car

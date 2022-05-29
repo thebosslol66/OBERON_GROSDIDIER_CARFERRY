@@ -31,7 +31,7 @@ public class Row implements Comparable<Row> {
 	}
 	
 	/**
-	 * Addf a vehicle in the row
+	 * Add a vehicle in the row
 	 * @param v vehicle to add
 	 * @return the position in the row and the id of the row
 	 */
@@ -60,6 +60,24 @@ public class Row implements Comparable<Row> {
 	 */
 	public int getVehicleNumber() {
 		return vehicleQueue.size();
+	}
+	
+	public boolean haveVehicleWithSameRegistration(String registration) {
+		for (Vehicle v: vehicleQueue) {
+			if (v.getRegistration().equals(registration)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean haveVehicleWithSameDriver(Driver driver) {
+		for (Vehicle v: vehicleQueue) {
+			if (v.getDriver().equals(driver)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

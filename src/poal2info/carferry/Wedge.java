@@ -68,6 +68,12 @@ public class Wedge {
 		
 		Set<Row> rowsWithEnougthSpace = new TreeSet<Row>();
 		for  (int i=0; i<rows.length; i++) {
+			if (rows[i].haveVehicleWithSameRegistration(v.getRegistration())) {
+				throw new BoatException(BoatException.Reason.CAR_IS_ALREADY_LOADED);
+			}
+			if (rows[i].haveVehicleWithSameDriver(v.getDriver())) {
+				throw new BoatException(BoatException.Reason.DRIVER_HAVE_ALREADY_A_CAR);
+			}
 			if (v.getLenght() < this.getLengthLeft(i)) {
 				rowsWithEnougthSpace.add(rows[i]);
 			}

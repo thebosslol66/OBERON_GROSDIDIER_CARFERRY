@@ -162,6 +162,8 @@ class Row {
     +addVehicle(Vehicle v) Position
     +removeVehicle() Vehicle
     +getTotalWeight() double
+    +haveVehicleWithSameRegistration(String registration) boolean
+    +haveVehicleWithSameDriver(Driver driver) boolean
 }
 
 class Wedge {
@@ -286,13 +288,128 @@ La classe voiture perment d'enregistrer un nombre de passager alors que les cami
 
 ### Points intéréssants
 
+Dans cette partie nous avons décider de parler des modifications importantes faites au project qui difèrent du sujet.
+Nous allons donc parler de l'ajout d'un véhicule dans la cale puisque nous l'avons implémenté d'une manière particulière mais fonctionnelle.
+
+#### Ajout des véhicules
+
+![Méthode d'ajout d'un véhicule dans la cale](./img/add_vehicle_wedge.png)
+
+Sur cette image nous avons le script d'ajout d'un véhicule au bateau. Les premières lignes ne sont pas intéréssantes.
+Elles ne servent qu'a verifier que le poid du véhicule peux être supporté par le bateau.
+C'est a partir de la ligne 69 que le code est intéréssant.
+On créer un Set de rangées (ROW) dans laquelle on va ajouter toutes les rangées qui ont assez d'éspaces pour acceuilir la longueur du véhicule.
+Et grace au Set elle va les organiser selon leur méthodes compareTo qu'on détailleras un peu après.
+On va donc mettre dans ce Set les rangées possibles pour mettre le véhicule.
+Ensuite on vérifie qu'il y a au moin une rangée de libre sinon on n'a plus d'éspace disponible pour ce véhicule.
+Et on ajoute a la rangée qui a le moins de poids, le véhicule.
+On utilise la méthode "min" de collection pour nous donner ce résultat.
+Cette opération est en O(1) car on a ordonner nos éléments par poids.
+On peux voir comment est implémenter la méthode compareTo de "ROW" pour vérifier que c'est le poid de chacune des rangées qui est comparée.
+
+![Méthode commpareTo d'une rangée](./img/compare_to_row.png)
+
+Sur cette capture d'écran on a la fonction compareTo de la classe "ROW" qui compare simplement le poid de la rangée avec une autre passé en paramètre.
+Le poid de la rangée est le poid de tous les véhicules qui s'y trouvent.
+
+#### Mise à jours des éléments de la fenetre de la cale
+
+![Mise a jour des informations de la fenetre wedge](./img/update_wedge_window.png)
+
+Dans ce bout de code on peux voir une fonction update.
+Elle permet de mettre a jour la fenetre montrant la cale du bateau.
+La fonctuion setListData de leftRowList et rightRowList (JList) permet de remplacer le contenu des JLisst par les arrays d'object passé en paramètres.
+Ce role est remplis par listDataVehicle qui va récuperer les informations de rangées et retourner un array d'object.
+Donc a chaque fois qu'on effectue une opération d'ajour ou de suppression de véhicule, on appele cette fonction pour mettre a jour la cale du bateau
+
+#### Formattage des nombres dans le formulaire d'embarquement
+
+![Formattage des nombres](./img/Formattage_des_nombres.png)
+
+On a choisi de faire un formattage des nombres directement dan l'interface graphique pourc que l'interface soit plus simple et pour que les nombres soient correctement formatées.
+Par exemple, oon ne veux pas que le nombres de passagers soit a virgule.
+Il est difficile de conevoir qu'il y ait 1/3 d'une personne qui souhaite faire la traversé.
+
+On a donc utiliser a la ligne 66 une instance de Integer que l'on a mis au maximum a deux chiffres pour éviter de devoir transporter plus de 100 personnes.
+On utilise ensuite a la ligne 92 un JFormattedText que l'on initialise avec notre instance d'Integer pour que les deux puissent fonctionner correctement.
+
+Pour les nombres qui peuvent être de nombre a virgule on utilise des DecimalFormat avec lequel  on met un maximum de deux nombres après la virgume.
+Puis on a décider de changer le séparateur qui est initialement une virgule par un point.
+Le tout pour faciliter la saisie de ces nombres.
+Ensuite on instancie de la même façon la saisie pour le poid du véhicule a la ligne 97 et pour le poid de la cargaison a la ligne 102.
+
+Le formattage se fais automatiquement lors du changement de la zone de saisie.
+
 ### Partage du travail
 
 ### Les résultats obtenus
 
+![Résultats de l'application textuelle](./img/result_console.png)
+
+![Toutes les fentres de l'interface graphique](./img/GUI_full_windows.png)
+
 ### Ce qui a été tésté
 
+#### Dans le programme textuel
+
+Pour la partie du programme qui sert de modèle, on a développé une suite de tests contenues dans TestBoat.
+
+Nous avons séparer nos test en différentes catégories:
+
+* le chargement
+
+* le déchargement
+
+* le gestion des tickets
+
+* la gestion des prix
+
+##### Le chargement
+
+Nous avons tout d'abord testé si le bateau est bien vide lors de sa création.
+Ensuite si le chargement d'un véhicule s'éffectuait correctement puis si le chargement de plusieurs véhicules fonctionnaitt aussi et ne créait pas de problèmes
+On a vérifié les éxeptions lièes aux chargement.
+On effectue les tests pour verifier que l'exeption due a un manque de place en logueur et que l'exeption due a un poid trop important sont levées.
+
+On vérifie aussi que le placement des véhicules correspond bien a ce que l'on a souhaité.
+Et nous avons vérifié que le bateau ajoutais correctement les passagers sur le pont.
+Et pour le bonus nous vérifions si le bateau n'as pas déjà chargée un véhicule avec un même conducteur ou un autre véhicule avec la même plaque d'imatriculation (car cencée être unique)
+
+##### Le déchargement
+
+Nous avons vérifié que le bateau se déchargeait correctement (comme on le souhaitais), 
+Nous avons vérifié aussi que les passagers déscendaient bien avec les bon véhicules.
+Les tests vérifiaient aussi la présence des exeptions pour le déchargement lorsque le bateau est vide ainsi que le chargement alors que l'on est en train de décharger le bateau.
+Dans la même logique on a vérifié que l'on pouvait remettre des véhicules dans le bateau après le déchargement complet.
+
+##### La gestion des tickets
+
+Lorsqu'on demande le ticket d'un véhicule qui n'existe pas, on vérifie que le retour est bien vide, on vérifie aussi dans le cas contraire que le ticket existe si le véhicule a été chargée.
+Ensuite on fais une vérification que chaques éléments du ticket est valide par rapport aux données attendues.
+
+##### La gestions des prix
+
+On a fais des vérifications succinctes pour cette classe comme c'est des calculs assez basiques.
+On fais une vérification pour seulement quelques camions et quelques voitures.
+
+#### Dans le programmme graphique
+
+Pour tester la partie graphique nous n'avons pas creer des tests automatiques.
+Nous avons donc vérifié manuellement les cas possibles d'utilisations.
+
 ### Ce qui n'as pas été implanté
+
+Le programme produit respecte les consignes et toutes les fonctionnalitées demandées sont incluses dans le programme.
+On a donc tout implémenté sans rien oublier (normalement).
+
+Pour l'ajout d'un véhicule nous avons vérifié si chacuns des paramètres étaient bien vérifiés avant d'éssayer d'ajouter le véhicule au bateau. Nous avons aussi fais la vérification que le bon type de véhicule était ajouté.
+Pour ce qui est de l'interface en elle même nous avons bien la désactivation des champs inutiles au véhicule (désactivation du champ passager pour les camions et désactivation du poid de la cargaison pour les voitures).
+
+Pour la fenêtre de la cale, l'affichage des informatios fonctionnent et correspond bien au véhicule sélectionné et que les informations sont correctes.
+On vérifie que le fenêtre se met bien a jour lorsqu'on ajoute ou enlève un véhicule.
+Pour ces vérifications tous fonctionnent comme souhaité.
+
+Pour les derniers test on vérifie bien que les fenêtres d'informations apparaissent aux bons endroits et correspondent aux bonnes informations.
 
 ## Conclusion
 
@@ -301,3 +418,33 @@ La classe voiture perment d'enregistrer un nombre de passager alors que les cami
 ### Bilan du travail pour la formation
 
 ### Améliorations possibles mais non réalisées
+
+#### Amélioration du modèle
+
+Il ya pas mal d'améliorations que l'on pourrait apporter a ce projet mais par manque de temps nous avons donc fais le choix de ne pas les implémenter.
+
+Tout d'abord nous avons choisis de pouvoir créer une cale avec un nombre de rangées indéfinie.
+Cela pose un problème par rapport au sujet d'origine sur l'ajout et l'enlèvement des véhicules.
+Dans la vraie vie, un bateau a une ligne de flotaison qu'il faut respecter donc une ammélioration de la disposition des véhicule est a considéré dans le cas d'un bateau qui contient plus de deux rangées.
+
+On purrais ajouter aussi un maximum de poid entre la rangée avec le maximum de poid et celle qui a le minimum de poid pour aider justement a stabiliser cette ligne de flottaison.
+
+Dans la partie modèle du projet on aurais pus ajouter une classe "History" pour conserver la date du trajet ainsi que tous les tickets des véhicules ayant fait cette traversée. On pourrais alors voir plus facilement les bénéfices et les coûts du tajet.
+
+On pourrais aussi ajouter d'autre types de véhicules comme les bus qui sont des voitures qui transporent plus de passager (qu'on aurrais pus limiter a 7 passagers maximum) et des motocycles par exemples.
+On pourrais aussi accepter des passagers sans voitures mais on s'éloigne du sujet.
+
+Pour faire plus complexe on pourrais ajouter le temps de trajet, le coût du carburant au kilomètre et par kilos, avoir le coût total d'un trajet etc.
+
+#### Amélioration de l'interface
+
+On pourrais aussi améliorer l'interface graphique pour être ausi modulable en fonction du nombre de rangées, mais dans un soucis de rester proche du sujet nous avons vréer une interface avec seulement deux rangées.
+
+On pourrait avoir un récapitilatif des recettes du trajet, un historique des trajet avec la liste des véhicules etc.
+Les dépences et les bénéfices de chaques trajet.
+
+#### Les améliorations hors projet
+
+On pourrait faire une gestions d'un bureau de change dans le bateau, une boutique de souvenir et un bar.
+On pourrait aussi faire la gestions de plusieurs bateau avec leur historique, leur recète, dépences et bénifices pour chaque modules.
+Mais cela est pour une gestion beaucoup plus approfondis du projet et n'est pas forcément intéréssant dans le cadre d'apprentissages de l'algorithmique de base.

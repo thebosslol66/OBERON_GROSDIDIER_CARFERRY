@@ -86,7 +86,13 @@ Ce sont les seules libertées que nous avons prises par rapport au sujet.
 
 ### Diagramme
 
-```{.mermaid width=1600}
+<style>
+.mermaid
+
+{ width:1600px; }
+</style>
+
+```mermaid
 classDiagram
 
 Boat "1" -- "1" Wedge

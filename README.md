@@ -87,9 +87,7 @@ Ce sont les seules libertées que nous avons prises par rapport au sujet.
 ### Diagramme
 
 <style>
-.mermaid
-
-{ width:1600px; }
+.mermaid { width:1600px; }
 </style>
 
 ```mermaid
@@ -126,12 +124,12 @@ class Position {
 class Driver {
     -String name
     -String firstName
-    -int permNumber
+    -String permNumber
 
     +equals(Object o) boolean
     +getName() String
     +getFirstName() String
-    +getPermNumber() int
+    +getPermNumber() String
 }
 
 class Vehicle {
@@ -350,9 +348,59 @@ Le formattage se fais automatiquement lors du changement de la zone de saisie.
 
 ### Les résultats obtenus
 
+Voici les donées présentées (les prix sont des résultats que nous avons calculées a partir du sujet):
+
+|            |                 |    tonnes    |  mètres  | conducteur |         |           |    entier    |  tonnes   | euros  |
+| ---------- | :-------------: | :----------: | :------: | ---------- | ------- | :-------: | :----------: | :-------: | :----: |
+|            | immatriculation | poids à vide | longueur | nom        | prénom  | N° permis | Nb passagers | Cargaison |  Prix  |
+| Voiture v1 |   RM 1054 FF    |     1,2      |   4,2    | Martin     | Jeanne  |   22FF    |      2       |     /     |  41.0  |
+| Voiture v2 |    PO 377 AA    |     1,4      |   4,5    | Dupont     | Vincent |    A55    |      1       |     /     |  38.0  |
+| Voiture v3 |    WX 456 RT    |     1,2      |   5,3    | Durand     | Marie   |    B34    |      0       |     /     |  35.0  |
+| Camion c1  |    AZ 678 DF    |      4       |    12    | Grant      | Philip  |   20FF    |      /       |    15     | 1545.0 |
+| Camion c2  |    QS 543 HJ    |     5,2      |   13,5   | Scott      | Simon   |   B55JG   |      /       |   22,5    | 2295.0 |
+| Camion c3  |    BN 321 XC    |     4,5      |    15    | Lambert    | Alain   |  C44Djk   |      /       |    18     | 1845.0 |
+
 ![Résultats de l'application textuelle](./img/result_console.png)
 
+On nous a demandé de charger les véhicules dans cet ordre: c1, v1, v2, c2, v3, c3.
+En vérifiant a la main, on a le 3ième camion qui ne peux être chargé dans la cale a cause d'un manque de place.
+On peux donc verifier que la première ligne du résultat du programme est correcte.
+
+Puis il nous était demandé l'affichage de la cale symbolisé par 'G' et 'D', de la liste des ticket et le débarquement complet de la cale en affichant les vhéicules qui débarquent.
+
+Donc sur cette capture d'écan, les résultats sont corrects et corespondent aux attentes.
+
+Les résultats les plus interréssants sont sur l'interface graphique.
+
 ![Toutes les fentres de l'interface graphique](./img/GUI_full_windows.png)
+
+Dans cette capture d'écran on a l'affichage de toutes les fenêtres simultanément.
+On va parler de chaques fenêtres indépendament pour montrer les différentes fonctionnalitées implémentées.
+
+![Fenêtre principale de l'application](./img/mainFrame_overview.png)
+
+La fenêtre pricipale a une barre de menu avec un object permettant l'affichage de la cale.
+Elle possède aussi 2 boutons, le premier permet l'embarquement d'un véhicule et le duxième le débarque du véhicule adéquat.
+La gestion de la posibilité d'embarquer est géré par la fenêtre d'embarquation.
+
+![Fenêtre de la cale](./img/wedgeFrame_overview.png)
+
+La fenêtre d'affichage de la cale montre tous les véhicule présent dans la cale. Ici le bateau n'a que 2 rangées et nous n'avons pas fait pour un affichage autre que 2 rangées.
+Nous avons déjà chargé 3 véhicules. On voit sur cette image les informations du véhicule de Mme DURAND Marie en sélectionnant le véhicule sur l'interface (nécéssite un double click).
+On pourras veriifer que les informations sont juste et que les positions sont correctes. Malgré tous ce n'est que l'affichage du modèle prècèdament développé dans la partie console.
+
+![Fenêtre d'enregistrement d'un véhicule](./img/ragisterFrame_overview.png)
+
+Pour expliquer rapidement cette fenêtre, on a tous les champs pour enregistrer un véhicule.
+Les point a notées sont que pour une voiture, le champ du poid de la cargaison est innaccessible.
+Nous n'avons pas de champ cargaison pour une voiture donc il ne sert a rien de l'activé.
+Si tout se passe bien la fenêtre se ferme sans aucun message. Sinon une fenêtre indiqueras l'érreur qui est survenue.
+On peux voir ici un exemple:  
+![Exemple d'erreur de chargement](./img/exemple_derreur.png)
+
+![Exemple d'un débarquement](./img/exemple_dechargement.png)
+
+Sir cette image on a un exemple de déchargement avec les informations du véhicule qui est déchargée.
 
 ### Ce qui a été tésté
 
@@ -413,7 +461,7 @@ Pour ce qui est de l'interface en elle même nous avons bien la désactivation d
 
 Pour la fenêtre de la cale, l'affichage des informatios fonctionnent et correspond bien au véhicule sélectionné et que les informations sont correctes.
 On vérifie que le fenêtre se met bien a jour lorsqu'on ajoute ou enlève un véhicule.
-Pour ces vérifications tous fonctionnent comme souhaité.
+Pour ces vérifications tout fonctionnent comme souhaité.
 
 Pour les derniers test on vérifie bien que les fenêtres d'informations apparaissent aux bons endroits et correspondent aux bonnes informations.
 

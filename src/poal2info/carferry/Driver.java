@@ -10,20 +10,16 @@ package poal2info.carferry;
 public class Driver {
 
 	/**
-	 * Name and first name of the driver
+	 * Name and first name of the driver and his permit
 	 */
-	private String name, firstName;
-	/**
-	 * The permit number of driver
-	 */
-	private int permNumber;
+	private String name, firstName, permNumber;
 	
 	/**
 	 * @param _name driver name
 	 * @param _firstName driver first name
 	 * @param _permNumber driver permit number
 	 */
-	public Driver(String _name, String _firstName, int _permNumber) {
+	public Driver(String _name, String _firstName, String _permNumber) {
 		name = _name;
 		firstName = _firstName;
 		permNumber = _permNumber;
@@ -60,7 +56,7 @@ public class Driver {
 	/**
 	 * @return driver permit number
 	 */
-	public int getPermNumber() {
+	public String getPermNumber() {
 		return permNumber;
 	}
 	

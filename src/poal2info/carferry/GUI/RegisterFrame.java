@@ -59,6 +59,7 @@ public class RegisterFrame extends JFrame {
 		super("CAR FERRY - Embarquement");
 		this.setMinimumSize(new Dimension(300, 200));
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setLocationRelativeTo(null);
 
 		this.c = this.getContentPane();
 		this.c.setLayout(new BoxLayout(this.c, BoxLayout.Y_AXIS));
@@ -115,8 +116,7 @@ public class RegisterFrame extends JFrame {
 		inputDriverFirstName = new JTextField(20);
 		
 		JPanel panelDriverPerm = new JPanel();
-		inputDriverPerm = new JFormattedTextField(NumberFormat.getIntegerInstance());
-		inputDriverPerm.setColumns(20);
+		inputDriverPerm = new JTextField(20);
 		
 		JPanel panelButton = new JPanel();
 		buttonValider = new JButton("Valider");
@@ -252,7 +252,7 @@ public class RegisterFrame extends JFrame {
 			return null;
 		}
 		
-		Driver d = new Driver(driverName, driverFirstName, Integer.valueOf(driverPerm));
+		Driver d = new Driver(driverName, driverFirstName, driverPerm);
 		Vehicle v = null;
 		if (carButton.isSelected()) {
 			 v = new Car(registration, weight, length, d, passenger);

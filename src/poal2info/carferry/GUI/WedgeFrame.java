@@ -41,6 +41,7 @@ public class WedgeFrame extends JFrame {
 	public WedgeFrame(){
 		super("Cale du ferry");
 		this.setMinimumSize(new Dimension(300, 200));
+		this.setLocationRelativeTo(null);
 		
 		this.c = this.getContentPane();
 		this.c.setLayout(new GridLayout(1, 2));

@@ -37,6 +37,7 @@ public class MainFrame extends JFrame {
 	/**
 	 * Constructor to create the main frame with all it's widget.
 	 * 
+	 * @param a An action listener to atatch to widgets on this frame
 	 */
 	public MainFrame(ActionListener a) {
 		//Initialisation de base

@@ -467,9 +467,16 @@ Pour les derniers test on vérifie bien que les fenêtres d'informations apparai
 
 ## Conclusion
 
+Le travail a été realiser et toute les fonctionalité demandé on pu étré implementé a l'application 
+
+
 ### Bilan pour le travail en binôme
 
+le travail en binôme a été réaliser en séparant la charge de travail dans le binôme. nous avons chacun choisissent les parties de l'application qui nous intéressait le plus à développer et avons partagé et mis en commun notre travail facilement grace À Github.
+
 ### Bilan du travail pour la formation
+
+ce projet a été un vrai atout dans la formation il a permis de mettre en pratique toute la théorie aborder en cours, de  beaucoup programmé en java et donc de s'améliorer mais aussi de découvrir de nouvelles choses, de nouvelle solution, de mieux identifier et comprendre en cahier des charges et d'apporter une solution logicielle à un problème précis.
 
 ### Améliorations possibles mais non réalisées
 

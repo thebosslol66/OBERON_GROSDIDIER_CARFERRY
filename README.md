@@ -345,6 +345,8 @@ Le formatage se fait automatiquement lors du changement de la zone de saisie.
 
 ### Partage du travail
 
+Le travail a été partagé dans le binôme en selon nos envies et les parties qui nous intéressaient les plus De faire de notre côté où selon la facile d'une personne a réalisé la tâche
+
 ### Les résultats obtenus
 
 Voici les donées présentées (les prix sont des résultats que nous avons calculées a partir du sujet):
